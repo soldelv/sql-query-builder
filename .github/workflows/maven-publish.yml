@@ -9,6 +9,7 @@ jobs:
     permissions: write-all
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Set up Java for publishing to Maven Central Repository
         uses: actions/setup-java@v1     
         with:
