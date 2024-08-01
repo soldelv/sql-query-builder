@@ -1,2 +1,2 @@
 # sql-query-builder
-Java utility library to iteratively build SQL queries to handle database interactions
+Java utility library for iteratively building SQL queries to handle database interactions
