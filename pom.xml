@@ -1,154 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.github.soldelv</groupId>
-  <artifactId>sql-query-builder</artifactId>
-  <version>0.0.1</version>
-  <packaging>jar</packaging>
+    <groupId>io.github.soldelv</groupId>
+    <artifactId>sql-query-builder</artifactId>
+    <version>0.0.2</version>
+    <packaging>jar</packaging>
 
-  <name>sql-query-builder</name>
-  <description>Java utility library to iteratively build SQL queries to handle database interactions</description>
-  <url>https://github.com/soldelv/sql-query-builder</url>
-
-  <licenses>
-    <license>
-      <name>MIT License</name>
-      <url>http://www.opensource.org/licenses/mit-license.php</url>
-    </license>
-  </licenses>
-
-  <developers>
-    <developer>
-      <name>Umut Ay Bora</name>
-      <email>umutaybora@gmail.com</email>
-      <organization>Bora</organization>
-      <organizationUrl>https://github.com/Umutayb</organizationUrl>
-    </developer>
-
-    <developer>
-      <name>Joana Sol Del Valle</name>
-      <email>jsoldelvalle@gmail.com</email>
-      <organizationUrl>https://github.com/soldelv</organizationUrl>
-    </developer>
-  </developers>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
-    <maven.compiler.version>3.8.0</maven.compiler.version>
-    <buildDirectory>${project.basedir}/out/artifacts/sql-query-builder_jar</buildDirectory>
-  </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- Lombok -->
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>1.18.26</version>
-    </dependency>
-
-    <!-- Java Utilities -->
-    <dependency>
-      <groupId>io.github.umutayb</groupId>
-      <artifactId>Utilities</artifactId>
-      <version>1.6.5</version>
-    </dependency>
-  </dependencies>
-
-  <scm>
-    <connection>scm:git:git://github.com/soldelv/sql-query-builder.git</connection>
-    <developerConnection>scm:git:ssh://github.com/soldelv/sql-query-builder.git</developerConnection>
+    <name>sql-query-builder</name>
+    <description>Java utility library to iteratively build SQL queries to handle database interactions</description>
     <url>https://github.com/soldelv/sql-query-builder</url>
-  </scm>
 
-  <build>
-    <directory>${buildDirectory}</directory>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
 
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>${maven.compiler.version}</version>
-        <configuration>
-          <encoding>UTF-8</encoding>
-          <source>17</source>
-          <target>17</target>
-        </configuration>
-      </plugin>
+    <developers>
+        <developer>
+            <name>Umut Ay Bora</name>
+            <email>umutaybora@gmail.com</email>
+            <organization>Bora</organization>
+            <organizationUrl>https://github.com/Umutayb</organizationUrl>
+        </developer>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>2.2.1</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+        <developer>
+            <name>Joana Sol Del Valle</name>
+            <email>jsoldelvalle@gmail.com</email>
+            <organizationUrl>https://github.com/soldelv</organizationUrl>
+        </developer>
+    </developers>
 
-      <plugin>
-        <groupId>org.sonatype.central</groupId>
-        <artifactId>central-publishing-maven-plugin</artifactId>
-        <version>0.5.0</version>
-        <extensions>true</extensions>
-        <configuration>
-            <publishingServerId>central</publishingServerId>
-            <autoPublish>true</autoPublish>
-            <waitUntil>published</waitUntil>
-        </configuration>
-      </plugin>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.version>3.8.0</maven.compiler.version>
+        <buildDirectory>${project.basedir}/out/artifacts/sql-query-builder_jar</buildDirectory>
+    </properties>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9.1</version>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
 
-      <!-- GPG Plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-gpg-plugin</artifactId>
-        <version>1.6</version>
-        <executions>
-          <execution>
-            <id>sign-artifacts</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>sign</goal>
-            </goals>
-            <configuration>
-              <gpgArguments>
-                <arg>--pinentry-mode</arg>
-                <arg>loopback</arg>
-              </gpgArguments>
-              <skip>false</skip>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+        </dependency>
+
+        <!-- Java Utilities -->
+        <dependency>
+            <groupId>io.github.umutayb</groupId>
+            <artifactId>Utilities</artifactId>
+            <version>1.6.5</version>
+        </dependency>
+    </dependencies>
+
+    <scm>
+        <connection>scm:git:git://github.com/soldelv/sql-query-builder.git</connection>
+        <developerConnection>scm:git:ssh://github.com/soldelv/sql-query-builder.git</developerConnection>
+        <url>https://github.com/soldelv/sql-query-builder</url>
+    </scm>
+
+    <build>
+        <directory>${buildDirectory}</directory>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.5.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>published</waitUntil>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- GPG Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                            <skip>false</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

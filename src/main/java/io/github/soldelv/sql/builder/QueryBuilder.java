@@ -6,10 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import utils.Printer;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.soldelv.sql.builder.QueryBuilder.MainStatement.*;
 import static io.github.soldelv.sql.builder.QueryBuilder.Operator.*;
-import static io.github.soldelv.sql.builder.QueryBuilder.SelectionType.*;
 import static io.github.soldelv.sql.builder.QueryBuilder.Statement.*;
 import static utils.StringUtilities.contextCheck;
 
@@ -17,14 +18,24 @@ public class QueryBuilder {
     static Printer log = new Printer(QueryBuilder.class);
 
     @Getter
-    public enum Statement {
+    protected enum MainStatement {
         SELECT("SELECT "),
         FROM(" FROM "),
-        WHERE(" WHERE "),
-        AND(" AND "),
         GROUP_BY(" GROUP BY "),
         HAVING(" HAVING {condition} "),
         ORDER_BY(" ORDER BY ");
+
+        public final String value;
+
+        MainStatement(String operator) {
+            this.value = operator;
+        }
+    }
+
+    @Getter
+    public enum Statement {
+        WHERE(" WHERE "),
+        AND(" AND ");
 
         public final String value;
 
@@ -34,9 +45,10 @@ public class QueryBuilder {
     }
 
     @Getter
-    public enum SelectionType {
+    protected enum SelectionType {
         ALL("*"),
-        TOP("TOP({number})"),
+        TOP_COLUMN("TOP({number}) {column} AS singleResult"),
+        TOP_ALL("TOP({number}) * "),
         COUNT_OF("COUNT({column}) AS singleResult"),
         COUNT_ALL("COUNT(*) AS singleResult"),
         DISTINCT("DISTINCT {column}");
@@ -72,7 +84,7 @@ public class QueryBuilder {
     }
 
     @Getter
-    public enum OrderType {
+    protected enum OrderType {
         DESC(" DESC"),
         ASC(" ASC");
 
@@ -111,6 +123,13 @@ public class QueryBuilder {
 
     @Data
     @AllArgsConstructor
+    private static class OrderBy {
+        String columnName;
+        OrderType order;
+    }
+
+    @Data
+    @AllArgsConstructor
     @NoArgsConstructor
     public static class QueryConditions {
         Statement statement;
@@ -121,8 +140,8 @@ public class QueryBuilder {
 
     @Data
     public static class QueryAttributes {
-        String select;
-        boolean noLock;
+        private String select;
+        private boolean noLock;
         String from;
         List<JoinClause> joins;
         List<QueryConditions> conditions;
@@ -130,11 +149,65 @@ public class QueryBuilder {
         String having;
         OrderBy orderBy;
 
-        @Data
-        @AllArgsConstructor
-        public static class OrderBy {
-            String columnName;
-            OrderType order;
+        public QueryAttributes() {
+            this.joins = new ArrayList<>();
+            this.conditions = new ArrayList<>();
+        }
+
+        public void setSelect(SelectionType select){
+            this.select = select.value;
+        }
+
+        public void selectTopAll(int maxValues){
+            this.select = SelectionType.TOP_ALL.value.replace("{number}", String.valueOf(maxValues));
+        }
+
+        public void selectTopFromColumn(int maxValues, String column){
+            this.select = SelectionType.TOP_COLUMN.value.replace("{number}", String.valueOf(maxValues)).replace("{column}", column);
+        }
+
+        public void selectAll(){
+            this.select = SelectionType.ALL.value;
+        }
+
+        public void selectDistinct(String column){
+            this.select = SelectionType.DISTINCT.value.replace("{column}", column);
+        }
+
+        public void countAll(){
+            this.select = SelectionType.COUNT_ALL.value;
+        }
+
+        public void countOf(String column){
+            this.select = SelectionType.COUNT_OF.value.replace("{column}", column);
+        }
+
+        public void setOrderBy(String columnName, String type){
+            this.orderBy = new OrderBy(columnName, OrderType.valueOf(type));
+        }
+
+        public void setOrderBy(String columnName){
+            this.orderBy = new OrderBy(columnName, OrderType.DESC);
+        }
+
+        public void setWhere(String keyAttribute, Operator operator, String value){
+            this.conditions.add(new QueryConditions(WHERE, keyAttribute, operator, value));
+        }
+
+        public void setAnd(String keyAttribute, Operator operator, String value){
+            this.conditions.add(new QueryConditions(AND, keyAttribute, operator, value));
+        }
+
+        public void innerJoin(String table2, String t1ColumnName, String t2ColumnName){
+            this.joins.add(new JoinClause(JoinClause.JoinType.INNER_JOIN, table2, t1ColumnName, t2ColumnName));
+        }
+
+        public void rightJoin(String table2, String t1ColumnName, String t2ColumnName){
+            this.joins.add(new JoinClause(JoinClause.JoinType.RIGHT_JOIN, table2, t1ColumnName, t2ColumnName));
+        }
+
+        public void leftJoin(String table2, String t1ColumnName, String t2ColumnName){
+            this.joins.add(new JoinClause(JoinClause.JoinType.LEFT_JOIN, table2, t1ColumnName, t2ColumnName));
         }
     }
 
@@ -233,7 +306,7 @@ public class QueryBuilder {
                 .append(WHERE.value).append(table2Name).append(".").append(t2ColumnName)
                 .append(IS.value).append("result.").append(t1ColumnName);
 
-        String sqlQuery = SELECT.value + COUNT_ALL.value +
+        String sqlQuery = SELECT.value + SelectionType.COUNT_ALL.value +
                 FROM.value + String.format("(%s) AS result ", sqlQueryBuilder(inputQuery)) +
                 WHERE.value + NOT_EXISTS.value.replace("{column}", auxQuery);
         log.info("Query: " + sqlQuery);
