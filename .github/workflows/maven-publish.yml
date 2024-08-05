@@ -15,10 +15,10 @@ jobs:
         with:
           java-version: 19
           server-id: central
-          server-username: ${{ secrets.OSSRH_USERNAME }}
-          server-password: ${{ secrets.OSSRH_PASSWORD }}
-          gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          gpg-passphrase: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          server-username: ${{ OSSRH_USERNAME }}
+          server-password: ${{ OSSRH_PASSWORD }}
+          gpg-private-key: ${{ OSSRH_GPG_SECRET_KEY }}
+          gpg-passphrase: ${{ OSSRH_GPG_SECRET_KEY_PASSWORD }}
       - name: build artifact
         run: mvn clean package
       - name: Create release
@@ -34,6 +34,6 @@ jobs:
             --batch-mode \
             deploy
         env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          MAVEN_USERNAME: ${{ OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ OSSRH_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ OSSRH_GPG_SECRET_KEY_PASSWORD }}
