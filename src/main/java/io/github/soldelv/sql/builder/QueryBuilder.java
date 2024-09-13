@@ -35,7 +35,8 @@ public class QueryBuilder {
     @Getter
     public enum Statement {
         WHERE(" WHERE "),
-        AND(" AND ");
+        AND(" AND "),
+        OR(" OR ");
 
         public final String value;
 
